@@ -18,7 +18,10 @@ import { ProductModule } from './product/product.module';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       autoLoadEntities: true,
-      synchronize: true, // Note: Set to false in production
+      synchronize: false, // Note: Set to false in production
+      ssl: {
+        rejectUnauthorized: false, // Nécessaire sur Render
+      },
       extra: {
         max: 20, // maximum number of clients in the pool
         idleTimeoutMillis: 30000,
