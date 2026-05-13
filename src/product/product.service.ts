@@ -122,7 +122,7 @@ export class ProductService {
 
       const totalItems = await this.productRepository
         .createQueryBuilder('product')
-        .select('COUNT(*)', 'totalItems')
+        .select('SUM(product.quantity)', 'totalItems')
         .getRawOne();
 
       return {
@@ -131,7 +131,7 @@ export class ProductService {
           count: parseInt(state.count, 10),
           totalQuantity: parseInt(state.totalQuantity, 10) || 0,
         })),
-        totalItems: parseInt(totalItems.totalItems, 10),
+        totalItems: parseInt(totalItems.totalItems, 10) || 0,
       };
 
     } catch (error) {
