@@ -27,10 +27,16 @@ export class ProductController {
     return this.productService.findAll(search);
   }
 
+  @Get('lastUpdate')
+  @ApiOperation({ description: 'Récupérer la dernière mise à jour des produits' })
+  lastUpdate() {
+    return this.productService.lastUpdate();
+  }
+
   @Get(':productId')
   @ApiOperation({ description: 'Récupérer un produit par son ID' })
   @ApiParam({ name: 'productId', description: 'ID du produit à récupérer' })
-  findOne(@Param('productId') productId: string) {
+  findOne(@Param('productId') productId: number) {
     return this.productService.findOne(productId);
   }
 
@@ -38,14 +44,14 @@ export class ProductController {
   @ApiOperation({ description: 'Mettre à jour un produit existant' })
   @ApiParam({ name: 'productId', description: 'ID du produit à mettre à jour' })
   @ApiBadRequestResponse({ description: 'Données invalides' })
-  update(@Param('productId') productId: string, @Body() updateProductDto: UpdateProductDto) {
+  update(@Param('productId') productId: number, @Body() updateProductDto: UpdateProductDto) {
     return this.productService.update(productId, updateProductDto);
   }
 
   @Delete(':productId')
   @ApiOperation({ description: 'Supprimer un produit par son ID' })
   @ApiParam({ name: 'productId', description: 'ID du produit à supprimer' })
-  remove(@Param('productId') productId: string) {
+  remove(@Param('productId') productId: number) {
     return this.productService.remove(productId);
   }
 

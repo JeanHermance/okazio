@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 export enum state {
   MAUVAIS = 'mauvais',
@@ -8,8 +8,8 @@ export enum state {
 
 @Entity()
 export class Product {
-  @PrimaryGeneratedColumn('uuid')
-  productId!: string; 
+  @PrimaryGeneratedColumn()
+  productId!: number; 
 
   @Column()
   design!: string;
@@ -19,5 +19,11 @@ export class Product {
 
   @Column()
   quantity!: number;
+
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  createdAt!: Date;
+
+  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP'})
+  updatedAt!: Date;
 
 }

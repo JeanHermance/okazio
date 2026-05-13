@@ -39,14 +39,14 @@ export class ProductService {
         query.where('product.design ILIKE :search', { search: `%${search}%` });
       }
 
-      const products = await query.getMany();
+      const products = await query.orderBy('product.updatedAt', 'DESC').getMany();
       return products;
     } catch (error) {
       throw new Error('Erreur lors de la récupération des produits');
     }
   }
 
-  async findOne(productId: string) {
+  async findOne(productId: number) {
     try {
       const product = await this.productRepository.findOne({ where: { productId } });
       if (!product) {
@@ -62,7 +62,7 @@ export class ProductService {
     }
   }
 
-  async update(productId: string, updateProductDto: UpdateProductDto) {
+  async update(productId: number, updateProductDto: UpdateProductDto) {
     try {
       const product = await this.productRepository.findOne({ where: { productId } });
       if (!product) {
@@ -75,7 +75,7 @@ export class ProductService {
     }
   }
 
-  async remove(productId: string) {
+  async remove(productId: number) {
     try {
       const product = await this.productRepository.findOne({ where: { productId } });
       if (!product) {
@@ -88,6 +88,21 @@ export class ProductService {
       };
     } catch (error) {
       throw new Error(error instanceof Error ? error.message : 'Erreur lors de la suppression du produit');
+    }
+  }
+
+  async lastUpdate() {
+    try {
+      const lastUpdate = await this.productRepository.findOne({
+        order: {
+          updatedAt: 'DESC',
+        },
+      });
+      return lastUpdate;
+    } catch (error) {
+      throw new Error(
+        'Erreur lors de la récupération de la derniére mise à jour des produits'
+      );
     }
   }
 

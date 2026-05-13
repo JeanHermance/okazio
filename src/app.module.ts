@@ -4,7 +4,6 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductModule } from './product/product.module';
-import { SocketClientModule } from './socket-client/socket-client.module';
 
 @Module({
   imports: [
@@ -30,7 +29,6 @@ import { SocketClientModule } from './socket-client/socket-client.module';
       },
     }),
     ProductModule,
-    SocketClientModule,
   ],
   controllers: [AppController],
   providers: [AppService],
