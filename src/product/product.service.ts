@@ -93,15 +93,19 @@ export class ProductService {
 
   async lastUpdate() {
     try {
-      const lastUpdate = await this.productRepository.findOne({
-        order: {
-          updatedAt: 'DESC',
-        },
-      });
-      return lastUpdate;
+      const lastProduct = await this.productRepository
+        .createQueryBuilder('product')
+        .orderBy('product.createdAt', 'DESC')
+        .getOne();
+
+        return {
+          message: 'Dernière mise à jour des produits',
+          status: '200',
+          data:lastProduct
+        };
     } catch (error) {
       throw new Error(
-        'Erreur lors de la récupération de la derniére mise à jour des produits'
+        'Erreur lors de la dernière mise à jour des produits!!!'
       );
     }
   }
