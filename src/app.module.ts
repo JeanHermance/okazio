@@ -18,7 +18,7 @@ import { ProductModule } from './product/product.module';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       autoLoadEntities: true,
-      synchronize: false, // Note: Set to false in production
+      synchronize: true, // Note: Set to false in production
       ssl: {
         rejectUnauthorized: false, // Nécessaire sur Render
       },
