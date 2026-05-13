@@ -100,14 +100,25 @@ export class ProductService {
         .addSelect('SUM(product.quantity)', 'totalQuantity')
         .groupBy('product.state')
         .getRawMany();
-      
-      return states.map(state => ({
-        state: state.state,
-        count: parseInt(state.count, 10),
-        totalQuantity: parseInt(state.totalQuantity, 10)
-      }));
+
+      const totalItems = await this.productRepository
+        .createQueryBuilder('product')
+        .select('COUNT(*)', 'totalItems')
+        .getRawOne();
+
+      return {
+        states: states.map(state => ({
+          state: state.state,
+          count: parseInt(state.count, 10),
+          totalQuantity: parseInt(state.totalQuantity, 10) || 0,
+        })),
+        totalItems: parseInt(totalItems.totalItems, 10),
+      };
+
     } catch (error) {
-      throw new Error('Erreur lors de la récupération des statistiques des produits par état');
+      throw new Error(
+        'Erreur lors de la récupération des statistiques des produits par état'
+      );
     }
   }
 
